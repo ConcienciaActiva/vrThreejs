@@ -70,7 +70,7 @@
     <!-- Imagen de instrucciones -->
     <img
       id="instructionsImage"
-      src="./imgs/instructivo.png"
+      src="./imgs/Instrucciones-ADT.jpg"
       alt="Instrucciones de uso"
     />
     <script type="importmap">
@@ -108,6 +108,7 @@
       let lookTimer = null;
       let currentIntersected = null;
       let stream;
+      let score=100, intentos=2;
 
       let mediaRecorder,
         audioChunks = [];
@@ -250,7 +251,7 @@
         );
 
         if (intersects.length > 0) {
-          if (currentIntersected !== intersects[0].object) {
+          if (currentIntersected !== intersects[0].object && intersects[0].object.visible==true){
             currentIntersected = intersects[0].object;
             clearTimeout(lookTimer); // Resetear el temporizador cuando se enfoca otro objeto
             startInteractionTimer(currentIntersected);
@@ -471,7 +472,7 @@
 
               audio4.addEventListener("ended", function () {
                 console.log("Cliente ha terminado. Reproduciendo Crea3");
-                let audio5 = new Audio("./audios/Crea3-1.mp3");
+                let audio5 = new Audio("./audios/Crea3-2.mp3");
                 audio5.play();
 
                 audio5.addEventListener("ended", function () {
@@ -547,22 +548,54 @@
               if (data.resultado == "Correcto") {
                 console.log("Reproduciendo correcto ");
                 let audio6 = new Audio("./audios/Crea4.mp3");
-                audio6.play();
+                audio6.play();                
                 deactivateButton(sendBtn);
+                console.log("Este es el score: "+score);
+                const queryString = window.location.search;                
+                const redirectUrl =
+                  "https://creadn.com.co/bosi/rangebosi.html" +
+                  queryString +
+                  "&title=Triada del crecimiento comercial: 2 Atención&score=" + score;
+
+                setTimeout(function () {
+                  window.location.href = redirectUrl;
+                }, 100);
               } else if (data.resultado == "Incorrecto") {
+                intentos--; 
+                score -= 10;
                 console.log("Reproduciendo incorrecto ");
                 let audio7 = new Audio("./audios/Crea5.mp3");
                 audio7.play();
+                deactivateButton(sendBtn);
+                if (intentos <=0){
+                  updateInfoText("Intentos superados")
+                  const queryString = window.location.search;
+                  const redirectUrl =
+                    "https://creadn.com.co/bosi/rangebosi.html" +
+                    queryString +
+                    "&title=Triada del crecimiento comercial: 2 Atención&score=" + score;
+
+                  setTimeout(function () {
+                    window.location.href = redirectUrl;
+                  }, 100);
+                }else {
+                  deactivateButton(sendBtn);
+                  showButtons();
+                }
+                console.log("Este es el score: "+score)
+              }
+              else{
                 deactivateButton(sendBtn);
                 showButtons();
               }
             } else {
               console.log(data.message);
+              deactivateButton(sendBtn);
+              showButtons();
               //actualizarResultado(`Error: ${data.message}`);
             }
           });
       }
-
       // Agregar un evento al botón para solicitar permisos de micrófono y luego iniciar Three.js
       document
         .getElementById("initButton")
