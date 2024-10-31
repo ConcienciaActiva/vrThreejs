@@ -565,6 +565,7 @@
                 let audio6 = new Audio("./audios/Crea4.mp3");
                 audio6.play();                
                 deactivateButton(sendBtn);
+                audio6.addEventListener("ended", function () {
                 console.log("Este es el score: "+score);
                 const queryString = window.location.search;                
                 const redirectUrl =
@@ -575,6 +576,7 @@
                 setTimeout(function () {
                   window.location.href = redirectUrl;
                 }, 100);
+                });
               } else if (data.resultado == "Incorrecto") {
                 intentos--; 
                 score -= 10;
@@ -584,6 +586,7 @@
                 deactivateButton(sendBtn);
                 if (intentos <=0){
                   updateInfoText("Intentos superados")
+                  audio7.addEventListener("ended", function () {
                   const queryString = window.location.search;
                   const redirectUrl =
                     "https://creadn.com.co/bosi/desempeñobosi.html" +
@@ -593,6 +596,7 @@
                   setTimeout(function () {
                     window.location.href = redirectUrl;
                   }, 100);
+                  });
                 }else {
                   deactivateButton(sendBtn);
                   showButtons();
