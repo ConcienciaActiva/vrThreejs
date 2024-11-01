@@ -108,7 +108,7 @@
       let lookTimer = null;
       let currentIntersected = null;
       let stream;
-      let score=100, intentos=2;
+      let score=100, intentos=3, intentosCorrectos=0;
 
       let mediaRecorder,
         audioChunks = [];
@@ -473,7 +473,7 @@
           audio2.addEventListener("ended", function () {
             console.log("Crea2 ha terminado. Reproduciendo Vendedor...");
 
-            let audio3 = new Audio("./audios/Vendedor-adt.mp3");
+            let audio3 = new Audio("./audios/Vendedor-adt-1.mp3");
             audio3.play();
             //loadFBXModel();
             // Puedes seguir añadiendo más eventos "ended" si necesitas reproducir más audios en secuencia
@@ -561,43 +561,84 @@
               console.log(data.resultado);
               console.log("ESTE ES EL RESULTADO" + resultado);
               if (data.resultado == "Correcto") {
-                console.log("Reproduciendo correcto ");
-                let audio6 = new Audio("./audios/Crea4.mp3");
-                audio6.play();                
-                deactivateButton(sendBtn);
-                console.log("Este es el score: "+score);
-                const queryString = window.location.search;                
-                const redirectUrl =
-                  "https://creadn.com.co/bosi/rangebosi.html" +
-                  queryString +
-                  "&title=Triada del crecimiento comercial: 2 Atención&score=" + score;
-
-                setTimeout(function () {
-                  window.location.href = redirectUrl;
-                }, 100);
-              } else if (data.resultado == "Incorrecto") {
-                intentos--; 
-                score -= 10;
-                console.log("Reproduciendo incorrecto ");
-                let audio7 = new Audio("./audios/Crea5.mp3");
-                audio7.play();
-                deactivateButton(sendBtn);
-                if (intentos <=0){
-                  updateInfoText("Intentos superados")
-                  const queryString = window.location.search;
+                intentosCorrectos++;
+                if(intentosCorrectos == 1){
+                  console.log("Reproduciendo correcto ");
+                  let audio6 = new Audio("./audios/Creacorrecto-2.mp3");
+                  audio6.play();                                
+                  deactivateButton(sendBtn);
+                  audio6.addEventListener("ended", function () {
+                  console.log("Este es el score: "+score);
+                    deactivateButton(sendBtn);
+                    showButtons();
+                  });
+                }
+                else if (intentosCorrectos == 2){
+                  console.log("Reproduciendo correcto ");
+                  let audio8 = new Audio("./audios/Crea4.mp3");
+                  audio8.play();                                
+                  deactivateButton(sendBtn);
+                  audio8.addEventListener("ended", function () {
+                  console.log("Este es el score: "+score);
+                  const queryString = window.location.search;                
                   const redirectUrl =
-                    "https://creadn.com.co/bosi/rangebosi.html" +
+                    "https://creadn.com.co/bosi/desempeñobosi.html" +
                     queryString +
                     "&title=Triada del crecimiento comercial: 2 Atención&score=" + score;
 
                   setTimeout(function () {
                     window.location.href = redirectUrl;
                   }, 100);
-                }else {
+                  });
+                }                
+              } else if (data.resultado == "Incorrecto") {
+                intentos--; 
+                if(intentos ==2){                  
+                  score -= 5;
+                  console.log("Reproduciendo incorrecto ");
+                  let audio7 = new Audio("./audios/Creaincorrecto-1.mp3");
+                  audio7.play();                                
                   deactivateButton(sendBtn);
-                  showButtons();
+                  audio7.addEventListener("ended", function () {
+                  console.log("Este es el score: "+score);
+                    showButtons();
+                  });
                 }
-                console.log("Este es el score: "+score)
+                else if (intentos ==  1){
+                  score -= 5;
+                  console.log("Reproduciendo incorrecto ");
+                  let audio9 = new Audio("./audios/Creaincorrecto-2.mp3");
+                  audio9.play();                                
+                  deactivateButton(sendBtn);
+                  audio9.addEventListener("ended", function () {
+                  console.log("Este es el score: "+score);
+                    showButtons();
+                  });
+                }
+                else if (intentos == 0){
+                  score -= 10;
+                  updateInfoText("Intentos superados")
+                  let audio10 = new Audio("./audios/Creaincorrecto-3.mp3");
+                  audio10.play();                                
+                  deactivateButton(sendBtn);
+                  audio10.addEventListener("ended", function () {
+                  console.log("Este es el score: "+score);
+                  const queryString = window.location.search;                
+                  const redirectUrl =
+                    "https://creadn.com.co/bosi/desempeñobosi.html" +
+                    queryString +
+                    "&title=Triada del crecimiento comercial: 2 Atención&score=" + score;
+
+                  setTimeout(function () {
+                    window.location.href = redirectUrl;
+                  }, 100);
+                  });
+                }
+                // else {
+                //   deactivateButton(sendBtn);
+                //   showButtons();
+                // }
+                //console.log("Este es el score: "+score)
               }
               else{
                 deactivateButton(sendBtn);
@@ -611,6 +652,7 @@
             }
           });
       }
+      
       // Agregar un evento al botón para solicitar permisos de micrófono y luego iniciar Three.js
       document
         .getElementById("initButton")
