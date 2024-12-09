@@ -31,7 +31,7 @@
         transform: translateX(-50%);
         padding: 20px 50px; /* Botón más grande */
         font-size: 22px; /* Texto más grande */
-        background-color: #007bff;
+        background-color: #DF0022;
         color: white;
         border: none;
         cursor: pointer;
@@ -41,12 +41,12 @@
       }
 
       #initButton:hover {
-        background-color: #0056b3;
+        background-color: #db1331;
         transform: translateX(-50%) scale(1.05); /* Efecto hover */
       }
 
       #initButton:active {
-        background-color: #004494;
+        background-color: #db1e3b;
         transform: translateX(-50%) scale(0.98); /* Efecto al hacer click */
       }
 
@@ -70,7 +70,7 @@
     <!-- Imagen de instrucciones -->
     <img
       id="instructionsImage"
-      src="./imgs/instrucciones-bosi.jpg"
+      src="./imgs/instructivobosi.png"
       alt="Instrucciones de uso"
     />
     <script type="importmap">
@@ -167,13 +167,14 @@
 
         // Cargar imagen 360
         textureLoader = new THREE.TextureLoader();
-        const texture = textureLoader.load("./imgs/bosi.png");
+        const texture = textureLoader.load("./imgs/bosi4k.png");
         const sphereGeometry = new THREE.SphereGeometry(1000, 60, 40);
         const sphereMaterial = new THREE.MeshBasicMaterial({
           map: texture,
           side: THREE.DoubleSide,
         });
         const sphere = new THREE.Mesh(sphereGeometry, sphereMaterial);
+        sphere.rotation.set(0,Math.PI/2,0);
         sphere.scale.x = -1;
         scene.add(sphere);
 
@@ -228,10 +229,10 @@
       function loadFBXModel() {
         //Cargar Modelo 3D
         fbxLoader = new FBXLoader();
-        fbxLoader.load("./3d/tablet.fbx", (fbx) => {
+        fbxLoader.load("./3d/tablet2.fbx", (fbx) => {
           // Escalar y posicionar la tableta detrás de los botones
-          fbx.scale.set(0.3, 0.3, 0.3); // Ajustar el tamaño del modelo
-          fbx.rotation.set(Math.PI / 2, 0, 0); //
+          fbx.scale.set(0.2, 0.2, 0.2); // Ajustar el tamaño del modelo
+          fbx.rotation.set(Math.PI/2, Math.PI, 0); //
           fbx.position.set(0, -0.1, -1.3); // Posicionar la tableta detrás de los botones
           // Inicializar el AnimationMixer para controlar la animación
           mixer = new THREE.AnimationMixer(fbx);

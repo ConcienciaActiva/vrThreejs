@@ -31,7 +31,7 @@
         transform: translateX(-50%);
         padding: 20px 50px; /* Botón más grande */
         font-size: 22px; /* Texto más grande */
-        background-color: #007bff;
+        background-color: #000000;
         color: white;
         border: none;
         cursor: pointer;
@@ -41,12 +41,12 @@
       }
 
       #initButton:hover {
-        background-color: #0056b3;
+        background-color: #252525;
         transform: translateX(-50%) scale(1.05); /* Efecto hover */
       }
 
       #initButton:active {
-        background-color: #004494;
+        background-color: #5f5f5f;
         transform: translateX(-50%) scale(0.98); /* Efecto al hacer click */
       }
 
@@ -70,7 +70,7 @@
     <!-- Imagen de instrucciones -->
     <img
       id="instructionsImage"
-      src="./imgs/instrucciones-WS.jpg"
+      src="./imgs/instructivows.png"
       alt="Instrucciones de uso"
     />
     <script type="importmap">
@@ -168,7 +168,7 @@
 
         // Cargar imagen 360
         textureLoader = new THREE.TextureLoader();
-        const texture = textureLoader.load("./imgs/ws.png");
+        const texture = textureLoader.load("./imgs/ws4k.png");
         const sphereGeometry = new THREE.SphereGeometry(1000, 60, 40);
         const sphereMaterial = new THREE.MeshBasicMaterial({
           map: texture,
@@ -229,7 +229,7 @@
       function loadFBXModel() {
         //Cargar Modelo 3D
         fbxLoader = new FBXLoader();
-        fbxLoader.load("./3d/tablet.fbx", (fbx) => {
+        fbxLoader.load("./3d/tablet2.fbx", (fbx) => {
           // Escalar y posicionar la tableta detrás de los botones
           fbx.scale.set(0.3, 0.3, 0.3); // Ajustar el tamaño del modelo
           fbx.rotation.set(Math.PI / 2, 0, 0); //
