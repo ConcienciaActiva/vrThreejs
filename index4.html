@@ -172,7 +172,7 @@
 
         // Cargar imagen 360
         textureLoader = new THREE.TextureLoader();
-        const texture = textureLoader.load("./imgs/kia4k.png");
+        const texture = textureLoader.load("./imgs/kia4k.webp");
         const sphereGeometry = new THREE.SphereGeometry(1000, 60, 40);
         const sphereMaterial = new THREE.MeshBasicMaterial({
           map: texture,
@@ -339,7 +339,7 @@
             });
             recordTxt = new THREE.Mesh(textGeometry, textMaterial);
             recordTxt.position.set(recordBtn.position.x-0.1, recordBtn.position.y-0.03, recordBtn.position.z+0.02);
-            recordTxt.rotation.set(0, -0, 0);
+            recordTxt.rotation.set(0, 0, 0);
             scene.add(recordTxt);
           }
         );
@@ -357,7 +357,7 @@
             });
             stopRecordTxt = new THREE.Mesh(textGeometry, textMaterial);
             stopRecordTxt.position.set(stopRecordBtn.position.x-0.11, stopRecordBtn.position.y-0.03, stopRecordBtn.position.z+0.02);
-            stopRecordTxt.rotation.set(0, -0, 0);
+            stopRecordTxt.rotation.set(0, 0, 0);
             scene.add(stopRecordTxt);
           }
         );

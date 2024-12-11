@@ -11,6 +11,11 @@
       /* Ocultamos el canvas de Three.js inicialmente */
       canvas {
         display: none;
+        position: absolute;
+        top: 0;
+        left: 0;
+        width: 100%;
+        height: 100%;
       }
 
       /* Estilos para el botón e imagen */
@@ -161,19 +166,20 @@
 
         //CURSOR
         const cursorGeometry = new THREE.RingGeometry(0.01, 0.02, 32);
-        const cursorMaterial = new THREE.MeshBasicMaterial({ color: 0xffffff });
+        const cursorMaterial = new THREE.MeshBasicMaterial({ color: 0x4fb300 });
         reticle = new THREE.Mesh(cursorGeometry, cursorMaterial);
         scene.add(reticle);
 
         // Cargar imagen 360
         textureLoader = new THREE.TextureLoader();
-        const texture = textureLoader.load("./imgs/adt4k.png");
+        const texture = textureLoader.load("./imgs/adt4k.webp");
         const sphereGeometry = new THREE.SphereGeometry(1000, 60, 40);
         const sphereMaterial = new THREE.MeshBasicMaterial({
           map: texture,
           side: THREE.DoubleSide,
         });
         const sphere = new THREE.Mesh(sphereGeometry, sphereMaterial);
+        sphere.rotation.set(0,Math.PI/2,0);
         sphere.scale.x = -1;
         scene.add(sphere);
 
@@ -181,8 +187,8 @@
         const buttonGeometry = new THREE.BoxGeometry(0.3, 0.07, 0.05);
         const buttonMaterial = new THREE.MeshBasicMaterial({ color: 0xff0000 });
         startBtn = new THREE.Mesh(buttonGeometry, buttonMaterial);
-        startBtn.position.set(1, 0, 0); // Colocar el botón en frente de la cámara
-        startBtn.rotation.set(0, Math.PI / 2, 0);
+        startBtn.position.set(0, -0.1, -1); // Colocar el botón en frente de la cámara
+        startBtn.rotation.set(0, 0, 0);
         scene.add(startBtn);
 
         // Cargar texto "Iniciar" encima del botón
@@ -199,8 +205,8 @@
               color: 0xffffff,
             });
             startTxt = new THREE.Mesh(textGeometry, textMaterial);
-            startTxt.position.set(0.95, -0.02, -0.085); // Ajustar posición para centrar sobre el botón
-            startTxt.rotation.set(0, -Math.PI / 2, 0);
+            startTxt.position.set(startBtn.position.x-0.08,startBtn.position.y-0.03,startBtn.position.z+0.02); // Ajustar posición para centrar sobre el botón
+            startTxt.rotation.set(0, 0, 0);
             scene.add(startTxt);
           }
         );
@@ -230,9 +236,9 @@
         fbxLoader = new FBXLoader();
         fbxLoader.load("./3d/tablet2.fbx", (fbx) => {
           // Escalar y posicionar la tableta detrás de los botones
-          fbx.scale.set(0.3, 0.3, 0.3); // Ajustar el tamaño del modelo
+          fbx.scale.set(0.15, 0.15, 0.15); // Ajustar el tamaño del modelo
           fbx.rotation.set(Math.PI / 2, 0, 0); //
-          fbx.position.set(1, -0.2, 0); // Posicionar la tableta detrás de los botones
+          fbx.position.set(0, -0.5, -1.3);// Posicionar la tableta detrás de los botones
           // Inicializar el AnimationMixer para controlar la animación
           mixer = new THREE.AnimationMixer(fbx);
           // Obtener la primera animación del modelo
@@ -301,24 +307,24 @@
           new THREE.BoxGeometry(0.3, 0.07, 0.05),
           new THREE.MeshBasicMaterial({ color: 0xff0000 })
         );
-        recordBtn.position.set(1, -0.2, -0.5);
-        recordBtn.rotation.set(0, -Math.PI / 2, 0);
+        recordBtn.position.set(-0.4, -0.3, -1);
+        recordBtn.rotation.set(0, 0, 0);
         scene.add(recordBtn);
 
         stopRecordBtn = new THREE.Mesh(
           new THREE.BoxGeometry(0.3, 0.07, 0.05),
           new THREE.MeshBasicMaterial({ color: 0xff0000 })
         );
-        stopRecordBtn.position.set(1, -0.2, 0);
-        stopRecordBtn.rotation.set(0, -Math.PI / 2, 0);
+        stopRecordBtn.position.set(0, -0.3, -1);
+        stopRecordBtn.rotation.set(0, 0, 0);
         scene.add(stopRecordBtn);
 
         infoBtn = new THREE.Mesh(
           new THREE.BoxGeometry(0.7, 0.07, 0.05),
           new THREE.MeshBasicMaterial({ color: 0xff0000 })
         );
-        infoBtn.position.set(1, -0.3, 0);
-        infoBtn.rotation.set(0, -Math.PI / 2, 0);
+        infoBtn.position.set(0, -0.5, -1);
+        infoBtn.rotation.set(0, 0, 0);
         scene.add(infoBtn);
 
         fontLoader.load(
@@ -333,8 +339,8 @@
               color: 0xffffff,
             });
             recordTxt = new THREE.Mesh(textGeometry, textMaterial);
-            recordTxt.position.set(0.95, -0.22, -0.58);
-            recordTxt.rotation.set(0, -Math.PI / 2, 0);
+            recordTxt.position.set(recordBtn.position.x-0.1, recordBtn.position.y-0.03, recordBtn.position.z+0.02);
+            recordTxt.rotation.set(0, -0, 0);
             scene.add(recordTxt);
           }
         );
@@ -351,8 +357,8 @@
               color: 0xffffff,
             });
             stopRecordTxt = new THREE.Mesh(textGeometry, textMaterial);
-            stopRecordTxt.position.set(0.95, -0.22, -0.13);
-            stopRecordTxt.rotation.set(0, -Math.PI / 2, 0);
+            stopRecordTxt.position.set(stopRecordBtn.position.x-0.11, stopRecordBtn.position.y-0.03, stopRecordBtn.position.z+0.02);
+            stopRecordTxt.rotation.set(0, 0, 0);
             scene.add(stopRecordTxt);
           }
         );
@@ -368,8 +374,8 @@
           new THREE.BoxGeometry(0.3, 0.07, 0.05),
           new THREE.MeshBasicMaterial({ color: 0xff0000 })
         );
-        sendBtn.position.set(1, -0.2, 0.5);
-        sendBtn.rotation.set(0, -Math.PI / 2, 0);
+        sendBtn.position.set(0.4, -0.3, -1);
+        sendBtn.rotation.set(0, 0, 0);
         scene.add(sendBtn);
 
         fontLoader.load(
@@ -384,8 +390,8 @@
               color: 0xffffff,
             });
             sendTxt = new THREE.Mesh(textGeometry, textMaterial);
-            sendTxt.position.set(0.95, -0.22, 0.4);
-            sendTxt.rotation.set(0, -Math.PI / 2, 0);
+            sendTxt.position.set(sendBtn.position.x-0.1, sendBtn.position.y-0.03,sendBtn.position.z+0.02);
+            sendTxt.rotation.set(0, 0, 0);
             scene.add(sendTxt);
           }
         );
@@ -404,7 +410,7 @@
             });
             infoTxt = new THREE.Mesh(textGeometry, textMaterial);
             infoTxt.position.set(x, y, z);
-            infoTxt.rotation.set(0, -Math.PI / 2, 0);
+            infoTxt.rotation.set(0, 0, 0);
 
             callback(infoTxt); // Ejecutar el callback con el texto creado
           }
@@ -421,7 +427,7 @@
         }
 
         //Crear el nuevo texto y añadirlo a la escena
-        createText(newText,infoBtn.position.x - 0.1,infoBtn.position.y ,infoBtn.position.z - 0.3,(newTextMesh) => {
+        createText(newText,infoBtn.position.x - 0.3,infoBtn.position.y - 0.02,infoBtn.position.z + 0.05,(newTextMesh) => {
             infoTxt = newTextMesh; // Actualizar referencia
             scene.add(infoTxt);
           }
